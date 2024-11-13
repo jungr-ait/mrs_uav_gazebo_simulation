@@ -166,14 +166,14 @@ limitations under the License.
 
 <!-- Ball inertia {-->
 {%- macro ball_inertia(m, r) -%}
-	<inertia>
-	  <ixx>{{ 2 * m * r * r / 5 }}</ixx>
-	  <ixy>0</ixy>
-	  <ixz>0</ixz>
-	  <iyy>{{ 2 * m * r * r / 5 }}</iyy>
-	  <iyz>0</iyz>
-	  <izz>{{ 2 * m * r * r / 5 }}</izz>
-	</inertia>
+  <inertia>
+    <ixx>{{ 2 * m * r * r / 5 }}</ixx>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyy>{{ 2 * m * r * r / 5 }}</iyy>
+    <iyz>0</iyz>
+    <izz>{{ 2 * m * r * r / 5 }}</izz>
+  </inertia>
 {%- endmacro -%}
 <!--}-->
 
@@ -1688,4 +1688,39 @@ limitations under the License.
 {%- endmacro -%}
 {# <!--}--> #}
 
+{# ======================== UWB Device ======================== #}
+
+{# uwb_twr_macro {--> #}
+{%- macro uwb_twr_macro(parent_link, twrRate, device_id, twrTopic, x, y, z, roll, pitch, yaw) -%}
+  <link name="uwb_twr_{{ device_id }}_link">
+    <pose>{{ x }} {{ y }} {{ z }} {{ roll }} {{ pitch }} {{ yaw }}</pose>
+    {{ zero_inertial_macro() }}
+    <visual name="uwb_twr_{{ device_id }}_visual">
+      <pose>0 0 0 {{ math.radians(180) }} 0 0</pose>
+      <geometry>
+        <mesh>
+          <uri>model://mrs_robots_description/meshes/sensors/rpi_case_solid.stl</uri>
+          <scale>0.001 0.001 0.001</scale>
+        </mesh>
+      </geometry>
+      <material>
+        <script>
+          <name>Gazebo/White</name>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+        </script>
+      </material>
+    </visual>
+    <plugin name='uwb_twr_{{ device_id }}_plugin' filename="libCnsGazeboCommonResources_RosUwbTwrPlugin.so">
+      <twrRate>{{ twrRate }}</twrRate>
+      <twrTopic>{{ twrTopic }}</twrTopic>
+      <deviceId>{{ device_id }}</deviceId>
+      <modelPrefix>uwb_twr</modelPrefix>
+    </plugin>
+  </link>
+  <joint name="uwb_twr_{{ device_id }}_joint" type="fixed">
+    <parent>{{ parent_link }}</parent>
+    <child>uwb_twr_{{ device_id }}_link</child>
+  </joint>
+{%- endmacro -%}
+{# <!--}--> #}
 </sdf>

@@ -2811,7 +2811,7 @@ limitations under the License.
 
 {%- endmacro -%}
 <!--}-->
-
+{# ========================= UWB components ======================= #}
 {# TODO: UWB plugin is not core #}
 {# uwb_range_macro {--> #}
 {%- macro uwb_range_macro(parent_link, x, y, z, roll, pitch, yaw, mount, spawner_args) -%}
@@ -2867,6 +2867,58 @@ limitations under the License.
   {%- endif -%}
 {%- endmacro -%}
 {# <!--}--> #}
+
+
+{# dual_uwb_twr_macro {--> #}
+{%- macro dual_uwb_twr_macro(parent_link, x1, y1, z1, yaw1, x2, y2, z2, yaw2, spawner_args) -%}
+
+  {%- set spawner_keyword = 'enable-dual-uwb-twr' -%}
+  {%- set spawner_description = 'Add Qorvo DW1000 UWB transceiver. Requires param "signal_id1" and "signal_id2" to be set.' -%}
+  {%- set spawner_default_args = {'signal_id1': none, 'signal_id2': none, 'update_rate': 10} -%}
+
+  {%- if spawner_keyword in spawner_args.keys() -%}
+
+    {{ generic.handle_spawner_args(spawner_keyword, spawner_default_args, spawner_args) }}
+
+    {%- if spawner_args[spawner_keyword]['signal_id1'] is not none -%}
+
+      <!-- Qorvo DW1000 UWB {-->
+      {{ generic.uwb_twr_macro(
+        parent_link = parent_link,
+        twrRate =  spawner_args[spawner_keyword]['update_rate'],
+        device_id = spawner_args[spawner_keyword]['signal_id1'],
+        twrTopic = spawner_args['name'] + '_' + spawner_args[spawner_keyword]['signal_id1'] | string(),
+        x = x1,
+        y = y1,
+        z = z1,
+        roll = 0,
+        pitch = 0,
+        yaw = yaw1)
+      }}
+      <!--}-->
+
+    {%- endif -%}
+    {%- if spawner_args[spawner_keyword]['signal_id2'] is not none -%}
+      <!-- Qorvo DW1000 UWB {-->
+      {{ generic.uwb_twr_macro(
+        parent_link = parent_link,
+        twrRate =  spawner_args[spawner_keyword]['update_rate'],
+        device_id = spawner_args[spawner_keyword]['signal_id2'],
+        twrTopic = spawner_args['name'] + '_' + spawner_args[spawner_keyword]['signal_id2'] | string(),
+        x = x2,
+        y = y2,
+        z = z2,
+        roll = 0,
+        pitch = 0,
+        yaw = yaw2)
+      }}
+      <!--}-->
+
+    {%- endif -%}
+  {%- endif -%}
+{%- endmacro -%}
+{# <!--}--> #}
+
 
 {# water_gun_macro {--> #}
 {%- macro water_gun_macro(parent_link, nozzle_offset_x, nozzle_offset_y, nozzle_offset_z, x, y, z, roll, pitch, yaw, spawner_args) -%}

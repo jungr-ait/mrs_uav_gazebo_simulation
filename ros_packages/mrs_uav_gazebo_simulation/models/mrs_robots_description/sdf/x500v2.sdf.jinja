@@ -1016,32 +1016,34 @@
     }}
     {# <!--}--> #}
     {# Qorvo UWB {--> #}
-    {{ components.uwb_range_macro(
+    {{ components.dual_uwb_twr_macro(
         parent_link = root,
-        x = 0.135,
-        y = 0.135,
-        z = -0.1,
-        roll = 0.0,
-        pitch = 0.0,
-        yaw = 0.7854,
-        mount = qorvo_dw1000_mount_A,
+        x1 = 0.135,
+        y1 = 0.135,
+        z1 = -0.03,
+        yaw1 = 0.7854,
+        x2 = 0.135,
+        y2 = -0.135,
+        z2 = -0.03,
+        yaw2 = -0.7854,
         spawner_args = spawner_args)
     }}
-    {# <!--}--> #}
-    {# Qorvo UWB {--> #}
-    {{ components.uwb_range_macro(
-        parent_link = root,
-        x = 0.135,
-        y = -0.135,
-        z = -0.10,
-        roll = 0.0,
-        pitch = 0.0,
-        yaw = -0.7854,
-        mount = qorvo_dw1000_mount_B,
-        spawner_args = spawner_args)
-    }}
-    {# <!--}--> #}
 
+    {# Water gun {--> #}
+    {{ components.water_gun_macro(
+      parent_link = root,
+      nozzle_offset_x = 0.21,
+      nozzle_offset_y = 0.0,
+      nozzle_offset_z = -0.085,
+      x = 0,
+      y = 0,
+      z = -0.11,
+      roll = 0,
+      pitch = 0,
+      yaw = 0,
+      spawner_args = spawner_args)
+    }}
+    {# <!--}--> #}
     {# ====================== conditional components ==================== #}
 
     {# lidar mount / gps antenna visuals {--> #}
