@@ -2881,13 +2881,11 @@ limitations under the License.
     {{ generic.handle_spawner_args(spawner_keyword, spawner_default_args, spawner_args) }}
 
     {%- if spawner_args[spawner_keyword]['signal_id1'] is not none -%}
-
-      <!-- Qorvo DW1000 UWB {-->
       {{ generic.uwb_twr_macro(
         parent_link = parent_link,
         twrRate =  spawner_args[spawner_keyword]['update_rate'],
         device_id = spawner_args[spawner_keyword]['signal_id1'],
-        twrTopic = spawner_args['name'] + '_' + spawner_args[spawner_keyword]['signal_id1'] | string(),
+        twr_publish_topic = '/' + spawner_args['name'] + '/uwb_twr' + spawner_args[spawner_keyword]['signal_id1'] | string(),
         x = x1,
         y = y1,
         z = z1,
@@ -2895,16 +2893,13 @@ limitations under the License.
         pitch = 0,
         yaw = yaw1)
       }}
-      <!--}-->
-
     {%- endif -%}
     {%- if spawner_args[spawner_keyword]['signal_id2'] is not none -%}
-      <!-- Qorvo DW1000 UWB {-->
       {{ generic.uwb_twr_macro(
         parent_link = parent_link,
         twrRate =  spawner_args[spawner_keyword]['update_rate'],
         device_id = spawner_args[spawner_keyword]['signal_id2'],
-        twrTopic = spawner_args['name'] + '_' + spawner_args[spawner_keyword]['signal_id2'] | string(),
+        twr_publish_topic = '/' + spawner_args['name'] + '/uwb_twr' + spawner_args[spawner_keyword]['signal_id2']  | string(),
         x = x2,
         y = y2,
         z = z2,
@@ -2912,8 +2907,6 @@ limitations under the License.
         pitch = 0,
         yaw = yaw2)
       }}
-      <!--}-->
-
     {%- endif -%}
   {%- endif -%}
 {%- endmacro -%}

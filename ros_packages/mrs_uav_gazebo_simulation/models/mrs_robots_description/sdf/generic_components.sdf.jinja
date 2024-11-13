@@ -1691,7 +1691,7 @@ limitations under the License.
 {# ======================== UWB Device ======================== #}
 
 {# uwb_twr_macro {--> #}
-{%- macro uwb_twr_macro(parent_link, twrRate, device_id, twrTopic, x, y, z, roll, pitch, yaw) -%}
+{%- macro uwb_twr_macro(parent_link, twrRate, device_id, twr_publish_topic, x, y, z, roll, pitch, yaw) -%}
   <link name="uwb_twr_{{ device_id }}_link">
     <pose>{{ x }} {{ y }} {{ z }} {{ roll }} {{ pitch }} {{ yaw }}</pose>
     {{ zero_inertial_macro() }}
@@ -1710,13 +1710,13 @@ limitations under the License.
         </script>
       </material>
     </visual>
-    <plugin name='uwb_twr_{{ device_id }}_plugin' filename="libCnsGazeboCommonResources_RosUwbTwrPlugin.so">
-      <twrRate>{{ twrRate }}</twrRate>
-      <twrTopic>{{ twrTopic }}</twrTopic>
-      <deviceId>{{ device_id }}</deviceId>
-      <modelPrefix>uwb_twr</modelPrefix>
-    </plugin>
   </link>
+  <plugin name='uwb_twr_{{ device_id }}_plugin' filename="libMrsGazeboCommonResources_RosUwbTwrPlugin.so">
+    <twrRate>{{ twrRate }}</twrRate>
+    <twrTopic>{{ twr_publish_topic }}</twrTopic>
+    <deviceId>{{ device_id }}</deviceId>
+    <modelPrefix>"uwb_twr"</modelPrefix>
+  </plugin>
   <joint name="uwb_twr_{{ device_id }}_joint" type="fixed">
     <parent>{{ parent_link }}</parent>
     <child>uwb_twr_{{ device_id }}_link</child>
