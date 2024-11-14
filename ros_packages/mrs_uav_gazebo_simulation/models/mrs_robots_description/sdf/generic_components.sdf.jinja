@@ -1690,13 +1690,13 @@ limitations under the License.
 
 {# ======================== UWB Device ======================== #}
 
-{# uwb_twr_macro {--> #}
-{%- macro uwb_twr_macro(parent_link, twrRate, device_id, twr_publish_topic, x, y, z, roll, pitch, yaw) -%}
+{# uwb_twr_macro: model plugin refering to the pose of a link: uwb_twr_<device_id>_link {--> #}
+{%- macro uwb_twr_macro(parent_link, twrRate, twrNoise, device_id, twr_publish_topic, x, y, z, roll, pitch, yaw, offset_x, offset_y, offset_z) -%}
   <link name="uwb_twr_{{ device_id }}_link">
     <pose>{{ x }} {{ y }} {{ z }} {{ roll }} {{ pitch }} {{ yaw }}</pose>
     {{ zero_inertial_macro() }}
     <visual name="uwb_twr_{{ device_id }}_visual">
-      <pose>0 0 0 {{ math.radians(180) }} 0 0</pose>
+      <pose>0 0 0 {{ math.radians(0) }} 0 0</pose>
       <geometry>
         <mesh>
           <uri>model://mrs_robots_description/meshes/sensors/rpi_case_solid.stl</uri>
@@ -1710,12 +1710,45 @@ limitations under the License.
         </script>
       </material>
     </visual>
+    <collision name="uwb_twr_{{ device_id }}_collision">
+      <pose>0 0 0 0 0 0</pose>
+      <geometry>
+        <mesh>
+          <uri>model://mrs_robots_description/meshes/sensors/rpi_case_solid.stl</uri>
+          <scale>0.001 0.001 0.001</scale>
+        </mesh>
+      </geometry>
+      <surface>
+        <contact>
+          <ode>
+            <min_depth>0.01</min_depth>
+            <max_vel>0.0</max_vel>
+          </ode>
+        </contact>
+        <friction>
+          <ode/>
+        </friction>
+      </surface>
+    </collision>
   </link>
   <plugin name='uwb_twr_{{ device_id }}_plugin' filename="libMrsGazeboCommonResources_RosUwbTwrPlugin.so">
+    <maxRange>80.0</maxRange>
+    <constantBias>0.0</constantBias>
+    <distanceBasedBias>1.0</distanceBasedBias>
     <twrRate>{{ twrRate }}</twrRate>
+    <twrNoise>{{ twrNoise }}</twrNoise>
+    <refreshRateIDs>0.1</refreshRateIDs>
     <twrTopic>{{ twr_publish_topic }}</twrTopic>
+    <rangingIDsTopic>{{ twr_publish_topic }}/ranging_IDs</rangingIDsTopic>
+    <linkPrefix>uwb_twr</linkPrefix>
     <deviceId>{{ device_id }}</deviceId>
-    <modelPrefix>"uwb_twr"</modelPrefix>
+    <allBeaconsAreLOS>1</allBeaconsAreLOS>
+    <useRangingIDs>1</useRangingIDs>
+    <useRoundRobin>1</useRoundRobin>
+    <verbose>0</verbose>
+    <antenna_offset_x>{{ offset_x }}</antenna_offset_x>
+    <antenna_offset_y>{{ offset_y }}</antenna_offset_y>
+    <antenna_offset_z>{{ offset_z }}</antenna_offset_z>
   </plugin>
   <joint name="uwb_twr_{{ device_id }}_joint" type="fixed">
     <parent>{{ parent_link }}</parent>

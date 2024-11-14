@@ -2889,9 +2889,12 @@ limitations under the License.
         x = x1,
         y = y1,
         z = z1,
-        roll = 0,
+        roll = math.radians(180),
         pitch = 0,
-        yaw = yaw1)
+        yaw = yaw1,
+        offset_x = 0.03,
+        offset_y = 0.008,
+        offset_z = 0.1)
       }}
     {%- endif -%}
     {%- if spawner_args[spawner_keyword]['signal_id2'] is not none -%}
@@ -2903,9 +2906,12 @@ limitations under the License.
         x = x2,
         y = y2,
         z = z2,
-        roll = 0,
+        roll = math.radians(180),
         pitch = 0,
-        yaw = yaw2)
+        yaw = yaw2,
+        offset_x = 0.03,
+        offset_y = 0.008,
+        offset_z = 0.1)
       }}
     {%- endif -%}
   {%- endif -%}
