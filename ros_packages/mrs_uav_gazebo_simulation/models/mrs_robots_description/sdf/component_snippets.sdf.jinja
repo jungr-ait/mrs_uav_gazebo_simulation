@@ -971,7 +971,7 @@ limitations under the License.
           <lidar_yaw>{{ math.radians(180) }}</lidar_yaw>
           <topicName>{{ topic_lidar }}</topicName>
           <topicDiagName>{{ topic_diag }}</topicDiagName>
-          <min_range>0.1</min_range>
+          <min_range>1</min_range>
           <max_range>{{ range }}</max_range>
           <ordered>true</ordered>
           <gaussianNoise>{{ spawner_args[spawner_keyword]['noise'] }}</gaussianNoise>
@@ -2884,6 +2884,7 @@ limitations under the License.
       {{ generic.uwb_twr_macro(
         parent_link = parent_link,
         twrRate =  spawner_args[spawner_keyword]['update_rate'],
+        twrNoise = 0.1,
         device_id = spawner_args[spawner_keyword]['signal_id1'],
         twr_publish_topic = '/' + spawner_args['name'] + '/uwb_twr' + spawner_args[spawner_keyword]['signal_id1'] | string(),
         x = x1,
@@ -2901,6 +2902,7 @@ limitations under the License.
       {{ generic.uwb_twr_macro(
         parent_link = parent_link,
         twrRate =  spawner_args[spawner_keyword]['update_rate'],
+        twrNoise = 0.1,
         device_id = spawner_args[spawner_keyword]['signal_id2'],
         twr_publish_topic = '/' + spawner_args['name'] + '/uwb_twr' + spawner_args[spawner_keyword]['signal_id2']  | string(),
         x = x2,
