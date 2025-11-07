@@ -514,6 +514,42 @@
         }}
       {%- endset -%}
       {# <!--}--> #}
+      
+      {# realsense mount2 {--> #}
+      {%- set realsense_mount2 -%}
+        {{ generic.visual_link_macro(
+          name = 'realsense_mount2',
+          mesh_file = realsense_mount_mesh_file,
+          mesh_scale = mesh_scale,
+          color = 'Black',
+          x = 0,
+          y = 0,
+          z = 0,
+          roll = 0,
+          pitch = 0,
+          yaw = math.radians(90),
+          parent_link = root)
+        }}
+      {%- endset -%}
+      {# <!--}--> #}
+
+      {# realsense mount3 {--> #}
+      {%- set realsense_mount3 -%}
+        {{ generic.visual_link_macro(
+          name = 'realsense_mount3',
+          mesh_file = realsense_mount_mesh_file,
+          mesh_scale = mesh_scale,
+          color = 'Black',
+          x = 0,
+          y = 0,
+          z = 0,
+          roll = 0,
+          pitch = 0,
+          yaw = math.radians(90),
+          parent_link = root)
+        }}
+      {%- endset -%}
+      {# <!--}--> #}
 
       {# bluefox mount {--> #}
       {%- set bluefox_mount -%}
@@ -841,7 +877,7 @@
       parent_link = root,
       x = 0.086,
       y = 0,
-      z = 0.03,
+      z = 0.05,
       roll = 0,
       pitch = -math.radians(90),
       yaw = 0,
@@ -868,8 +904,16 @@
     {{ realsense_down }}
     {# <!--}--> #}
 
-    {%- if realsense_front | replace('\s', '') | length != 0 or realsense_up | replace('\s', '') | length != 0 or realsense_down | replace('\s', '') | length != 0 -%}
+    {%- if realsense_front | replace('\s', '') | length != 0 -%}
       {{ realsense_mount }}
+    {%- endif -%}
+
+    {%- if realsense_up | replace('\s', '') | length != 0  -%}
+      {{ realsense_mount2 }}
+    {%- endif -%}
+
+    {%- if realsense_down | replace('\s', '') | length != 0 -%}
+      {{ realsense_mount3 }}
     {%- endif -%}
 
     {# <!--}--> #}
